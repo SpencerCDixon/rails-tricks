@@ -122,9 +122,46 @@ app.help_url
 
 When to use _url:
 
-Use ``_url`` when using the ``redirect_to`` method.  The HTTP spec (you should provide
-full URI) However, ``_path`` will also work just fine.
+Use ``_url`` when using the ``redirect_to`` method.  The HTTP spec states: you should provide
+full URI. However, ``_path`` will also work just fine.
 
+You can hardcode your ``link_to`` but then you will be avoiding the rails
+routing system which will hurt you in the future becaues you will have to find
+and replace all instances of that route.  For example:
+```ruby
+link_to 'Help', '/main/help'
+```
+That will work but won't be very sustainable.
+
+Rails Syntactic Sugar for paths:
+```ruby
+# routes.rb
+'get "item/:id" => "items#show", as: "item"
+
+# views
+link_to "Auction of #{item.name} ", item_path(id: item.id)
+
+# Can be reduced to:
+link_to "Auction of #{item.name} ", item_path(item.id)
+
+# Can be reduced to:
+link_to "Auction of #{item.name} ", item_path(item)
+```
+
+This same pattern can extend to multiple segment keys.  Its **important** they
+are in the correct order though.  Example:
+
+```ruby
+# routes
+get "auction/:auction_id/item/:id" => "items#show", as: "item"
+
+# views
+link_to "Auction of #{item.name}", item_path(auction, item) # important these
+are in the correct order)
+
+# Depending on the item and auction ids you would get something like this:
+"/auction/4/item/11"
+```
 
 
 

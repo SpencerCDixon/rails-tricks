@@ -136,7 +136,7 @@ That will work but won't be very sustainable.
 Rails Syntactic Sugar for paths:
 ```ruby
 # routes.rb
-'get "item/:id" => "items#show", as: "item"
+get "item/:id" => "items#show", as: "item"
 
 # views
 link_to "Auction of #{item.name} ", item_path(id: item.id)
@@ -162,6 +162,21 @@ are in the correct order)
 # Depending on the item and auction ids you would get something like this:
 "/auction/4/item/11"
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

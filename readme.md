@@ -24,7 +24,7 @@ get 'products/:id', to: 'products#show'
 get 'products/:id' => 'products#show'
 ```
 
-*  params such as :id are known as *segment keys*
+Params such as :id are known as *segment keys*
 
 Explicit call to link_to:
 ```ruby
@@ -37,11 +37,11 @@ id: 1
 The explicit version isn't used anymore but it's useful to see for understanding
 of the named paths.
 
-It's vital to understand link_to doedsnt' know whether its supplying hard-coded
+It's vital to understand link_to doesn't know whether its supplying hard-coded
 segment values.  It just hopes that given what it has it will hit a correct
 route.
 
-You can redirect routes direclty in the routes file:
+You can redirect routes directly in the routes file:
 ```ruby
 get '/foo', to: redirect('/bar')
 ```
@@ -75,7 +75,7 @@ Lets say you have a query for specific items:
 get 'items/q/*specs', controller: 'items', action: 'query'
 
 def query
-  @itmes = Item.where(Hash[*params[:specs].split('/')])
+  @items = Item.where(Hash[*params[:specs].split('/')])
   if @items.empty?
     flash[:error] = "Can't find items with those properties"
   end
@@ -86,6 +86,82 @@ end
 spec = "base/books/fiction/dickens"
 Hash[*spec.split('/')] # will return: { "base" => "books", "fiction" => "dickens" }
 ```
+The square brackets class method on Hash will convert a one-dimensional array of
+key/value pairs into a hash! Super useful to know.  Ruby knowledge is vital to
+becoming great rails developer.
+
+#### Named Routes
+Named routes are only to make your life easier as a programmer.  Initially it
+does make things more confusing until you get the hang of it.
+
+Whenever you name a route in routes.rb a new method called name_url gets created
+for you.  Calling the method with passing in the correct parameters will
+generate the proper path. Additionally, name_path method gets created as well
+which will just generate the relative path **without the protocol and host
+components**
+
+You can name a route using the option :as
+```ruby
+# routes
+get 'help' => 'help#index', as: 'help'
+
+# in view
+link_to 'Help', help_path # path will go to /help
+```
+
+**TIP:**
+You can test named routes in the console direction using the special app object
+```ruby
+rails c
+app.help_path
+=> "/help"
+
+app.help_url
+=> "http://www.example.com/help"
+```
+
+When to use _url:
+
+Use ``_url`` when using the ``redirect_to`` method.  The HTTP spec (you should provide
+full URI) However, ``_path`` will also work just fine.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

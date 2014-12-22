@@ -255,7 +255,8 @@ Advantages of REST:
 Rest allows you to define routes with the same name but with intelligence about
 their HTTP verbs. 
 
-Making sure to use correct HTTP Verb:
+Making sure to use correct HTTP Verb:  
+
 1.  The default request method is GET  
 2.  In a ``form_tag`` or ``form_for`` call, the POST method will be used  
 3.  When you need to, you can specify a request method along with the URL
@@ -263,6 +264,76 @@ Making sure to use correct HTTP Verb:
 
 You would need to specify ``method: :delete`` to trigger a destroy action in a
 controller
+
+#### Singular vs. Plural  
+
+Why some rest routes are singular and some are plural:  
+*  Routes for show, new, edit, and destroy are singular b/c they are being
+   performed on a particular resource.  
+*  The rest of the routes are plural b/c they deal with collections of related
+   resources  
+
+**TIP**: All singular routes require an argument because they need to be able to
+figure out the id of the member of the collection referenced.  
+
+**TIP**: ``new`` and ``edit`` are really assistant actions.  All they are
+suppose to do is show the user a form as part of the process of creating or
+updating a resource.
+
+#### Editing A ``resource``
+
+You can add ``except:`` and ``only: `` to customize a resources calls in your
+routes to just have the exact paths you need.  
+
+Singular resources (``resource``) are used when you will only have one of
+something your app, for example: ``resource :profile``.  
+
+**TIP**: When using singular resources make sure to remember all _paths will be
+singular as well.
+
+#### Nesting Routes
+
+```ruby
+resources :auctions do
+  resources :bids
+end
+```
+
+When nesting resouces you are making a promise that you will now give any
+link_to's and forms the correct number of paramters.
+
+It's generally a good idea to not nest routes more than 1 layer deep.  This is a
+topic that is widely debated in the rails community.  Example of getting around
+double nested is to use the ``shallow`` block.
+
+```ruby
+
+resources :auctions do
+  resources :bids do
+    resources :comments
+  end
+end
+
+# could be changed to:
+
+resources :auctions do
+  resources :bids
+end
+
+resources :bids do
+  resources :comments
+end
+
+resources :comments
+
+# OR it can be dried up to simply be:
+
+resources :auctions, shallow: true do
+  resources :bids do
+    resources :comments
+  end
+end
+```
 
 
 

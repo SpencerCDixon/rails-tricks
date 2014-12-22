@@ -335,6 +335,131 @@ resources :auctions, shallow: true do
 end
 ```
 
+Concerns can be used when multiple resources share the same associations like
+being able to have comments.  For example:
+
+```ruby
+resources :auctions do
+  resources :bids
+  resources :comments
+  resources :image_attachment, only: :index
+end
+
+resources :bids do
+  resources :comments
+end
+
+# This can be dried up and use Concerns like this:
+
+concern :commentable do
+  resources :comments
+end
+
+concern :image_attachable do
+  resources :image_attachments, only: :index
+end
+
+resources :auctions, concerns: [:commentable, :image_attachmentable] do
+  resources :bids
+end
+
+resources :bids, conerns: :commentable
+```
+
+In this example it appears to be more code but now you can reuse the concerns in
+future routes that will need that feature.
+
+#### Customizing Resource Routes
+
+```ruby
+resources :auctions do
+  resources :bids do
+    member do
+      get :retract
+    end
+  end
+end
+```
+
+This will add a ``/auctions/3/bids/4/retract`` path that can be used to do
+something special.
+
+It will also create a ``link_to`` helper like so:  
+``link_to 'Retract', retract_bid_path(auction, bid)``
+
+This will show us the bid that needs to be retracted but in order to actually
+retract it we will need a POST not a GET.  To add a POST as well we add it under
+the member section like so:  
+
+```ruby
+resources :auctions do
+  resources :bids do
+    member do
+      get :retract
+      post :retract
+    end
+  end
+end
+```
+
+However, if you have more than one member you will want to switch to ``match``
+like this:  
+
+```ruby
+resources :auctions do
+  resources :bids do
+    member do
+      match :retract, via: [:get, :post]
+    end
+  end
+end
+```
+
+This can be even further optimized by passing in ``:member`` as a parameter
+
+```ruby
+resources :auctions do
+  resources :bids do
+    match :retract, via: [:get, :post], on: :member
+  end
+end
+```
+
+Customizing the action names in the route for a different language:
+```ruby
+resources :projects, path_names: { new: 'nuevo', edit: 'cambiar' }
+```
+The URL's will change but the names of the generated helper methods do not.  
+/projects/nuevo(.:format)   projects#new
+
+#### Mapping to a different controller
+
+```ruby
+resources :photos, controller: 'images'
+```
+
+#### Routes for New Resources
+
+Rails has a neat syntax for creating routes for new resources:
+
+```ruby
+resources :reports do
+  new do
+    post :preview
+  end
+end
+```
+This would give you:  
+``preview_new_report POST /reports/new/preview(.:format) reports#preview``
+
+In order to make it work we would change the ``form_for`` to:  
+```ruby
+form_for(report, url: preview_new_report_path) do |f|
+...
+f.submit "Preview"
+```
+
+
 
 
 

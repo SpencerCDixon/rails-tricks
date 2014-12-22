@@ -562,6 +562,12 @@ If you want to add callback that called no matter what, the Application
 Controller would be the place to put them since all other controllers inherit
 from there.
 
+Callbacks can be used on specific actions with the :only or :except options.
+
+### Views
+
+Folders after app/views/ are linked up to specific controllers, the files inside
+those folders are linked to specific actions inside that controller
 
 
 

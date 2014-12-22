@@ -486,6 +486,88 @@ headers, and an array of the body.
 
 Much of Action Controller is implemented as Rack middleware modules.
 
+**TIP** use ``rake middleware`` to see which Rack filters are enabled for your
+application.
+
+Action Dispatch - dispatches requests, example:
+```ruby
+get 'foo', to: 'foo#index'
+
+# Has a dispatcher instance associated with it whose call method ends up
+executing
+FooController.action(:index).call
+```
+
+When in doubt, Render.  If Rails can't find an action for a controller it will
+assume the action was empty and try to render the view with the appropriate name
+before throwing an error.
+
+This means: every action has an implied render command in it like this:
+```ruby
+def index
+  render 'demo/index'
+end
+```
+
+Great example of convention over configuration.  Rails does this to make the
+developers life easier, as long as the developer knows it is going to be
+happening
+
+#### Rendering Non-Default Templates
+When calling render template: is implied
+
+```ruby
+render template: '/products/index.html.haml'
+
+# is equivalent to:
+render '/products/index.html.haml'
+render 'products/index.html.haml'
+render 'products/index.html'
+render 'index'
+render :index
+```
+
+All of those renders will show the index view when called within the products
+controller.
+
+You can add a flash to a redirect_to method by:
+```ruby
+redirect_to post_url(@post), alert: "Post created"
+```
+
+**TIP** in Rails 4 you can add custom flash types by doing this:
+```ruby
+class ApplicationController
+  add_flash_types :error
+end
+```
+When you add a flash type a special accessor becomes available to redirect_to
+just like :alert and :notice
+
+
+Sharing of instance variables between controllers and views:  Rails loops
+through the controller objects variables and for each one, it creates an
+instance variable for the view object with the same name and the same data.
+
+#### Callbacks
+Callbacks should be made private or protected so they won't get called as public
+actions on your controller
+
+You can setup callbacks with this macro style in top of file:
+```ruby
+before_action :require_authentication
+```
+
+If you want to add callback that called no matter what, the Application
+Controller would be the place to put them since all other controllers inherit
+from there.
+
+
+
+
+
+
+
 
 
 

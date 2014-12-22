@@ -459,6 +459,34 @@ form_for(report, url: preview_new_report_path) do |f|
 f.submit "Preview"
 ```
 
+#### Respond_to method
+
+Instead of specifiying in each action what it can respond to you can do this:
+```ruby
+class AuctionsController < ApplicationController
+  respond_to :html, :xml, :json
+
+  def index
+    @auctions = Auction.all
+    respond_with(@auctions)
+  end
+end
+```
+
+This will dry up the code for each action.  
+
+### Controllers
+
+**Rack**: abstracts away the handling of HTTP requests and responses into a
+single, simple ``call`` method that can be used by anything from a plain Ruby
+script all the way to Rails itself.
+
+The ``call`` method should return an array with the status code, a hash of all
+headers, and an array of the body.
+
+Much of Action Controller is implemented as Rack middleware modules.
+
+
 
 
 

@@ -163,6 +163,100 @@ are in the correct order)
 "/auction/4/item/11"
 ```
 
+Overriding the necessity for the ID in params:
+
+```ruby
+# in model
+def to_param
+  description.parameterize
+end
+```
+``parameterize`` will created a munged version of the params for that object
+Munged: stripped of punctuation and joined with hyphens
+
+In order to get that item out of the database properly you would want to create
+a munged_description column to ensure uniqueness.
+
+```ruby
+Item.where(munged_description: params[:id]).first!
+```
+
+#### Scoping Routing Rules
+
+Turn this:
+```ruby 
+get 'auctions/new' => 'auctions#new'
+get 'auctions/edit/:id' => 'auctions#edit'
+get 'auctions/pause/:id' => 'auctions#pause'
+```
+
+Into:
+```ruby
+scope controller: :auctions do
+  get 'auctions/new' => :new
+  get 'auctions/edit/:id' => :edit
+  get 'auctions/pause/:id' => :pause
+end
+```
+
+Dry it up even more:
+```ruby
+scope path: '/auctions', controller: :auctions do
+  get 'new' => :new
+  get 'edit/:id' => :edit
+  get 'pause/:id' => :pause
+end
+```
+
+Even more syntactic sugar:
+```ruby
+scope controller: :auctions do
+# becomes
+scope :auctions do
+# becomes
+controller :auctions do
+```
+
+#### Path Prefix
+
+```ruby
+scope path: '/auctions' do
+scope '/auctions/ do
+
+# nested implied prefixed paths
+scope :auctions, :archived do
+
+# would scope all routes nested to "/auctions/archived"
+```
+
+#### Namespaces
+Will bundle module, name prefix, and path prefix settings into one declaration
+
+```ruby
+namespace :auctions, :controller => :auctions do
+  get 'new' => :new
+  get 'edit/:id' => :edit
+  post 'pause/:id' => :pause
+end
+```
+
+Search for a custom controllers routes:
+``rake routes CONTROLLER=products``
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

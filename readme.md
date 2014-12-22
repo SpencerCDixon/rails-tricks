@@ -240,9 +240,7 @@ namespace :auctions, :controller => :auctions do
 end
 ```
 
-Search for a custom controllers routes:
-``rake routes CONTROLLER=products``
-
+**TIP** Search for a custom controllers routes: ``rake routes CONTROLLER=products`` 
 
 
 

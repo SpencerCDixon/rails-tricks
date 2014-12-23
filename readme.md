@@ -611,7 +611,50 @@ faster.  ``#destory`` loads the object first and then destroys it, it will
 trigger ``before_destroy`` callbacks and dependant associations will be
 destroyed as well.  There is a difference between the two!
 
+**Locking**: a term for techniques that prevent concurrent users of an pp from
+overwriting each others work.
 
+How to pass in multiple parameters to a where clause:
+```ruby
+
+Product.where("name = :name AND sku = :sku AND created_at > :date", 
+              name: "Space Toilet", sku: 80808, date: '2009-01-01')
+```
+
+Order is defaulted to ascending:
+
+```ruby
+Timesheet.order(:created_at) # will be ascending
+
+# Rails 4 added feature to do desending:
+Timesheet.order(created_at: :desc)
+```
+
+Pagination can be implemented with ``#limit`` and ``#offest``
+
+```ruby
+Timesheet.limit(10).offset(10) # will return the second set of 10 rows
+```
+Extending a module into all Models:
+
+```ruby
+module Pagination
+  def page(number)
+  end
+end
+
+scope = Model.all.extending(Pagination)
+scope.page(params[:page])
+```
+
+Preventing N + 1 Queries:
+```ruby
+
+# First degree associations
+users = Users.where(login: "mack").includes(:billable_weeks)
+
+# Second degree associations
+users = Users.where(login: "mack").includes(:billable_weeks)
 
 ### Views
 

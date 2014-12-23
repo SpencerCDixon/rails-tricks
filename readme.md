@@ -564,6 +564,55 @@ from there.
 
 Callbacks can be used on specific actions with the :only or :except options.
 
+
+### Active Record
+
+*  AR will expect an id column to use as the primary key.
+
+Instead of using :default in migrations it makes more sense to set defaults in
+the actual models.  You can override the attributes like this:
+
+Reading:
+```ruby
+class TimesheetEntry < ActiveRecord::Base
+  def category
+   read_attribute(:category) || 'n/a'
+  end
+end
+```
+
+Writing:
+```ruby
+class TimesheetEntry < ActiveRecord::Base
+  def message=(txt)
+    write_attribute(:message, txt + ' in bed')
+  end
+end
+```
+
+Shortcuts:
+```ruby
+class TimesheetEntry < ActiveRecord::Base
+  def message=(txt)
+    self[:message] = txt + ' in bed'
+  end
+
+  def category
+   self[:category] || 'n/a'
+  end
+end
+```
+
+``#save`` will insert a record in db if necessary or update an existing record
+with the same primary key.
+
+``#delete`` uses SQL directly and does not load the AR object.  Thus it is
+faster.  ``#destory`` loads the object first and then destroys it, it will
+trigger ``before_destroy`` callbacks and dependant associations will be
+destroyed as well.  There is a difference between the two!
+
+
+
 ### Views
 
 Folders after app/views/ are linked up to specific controllers, the files inside

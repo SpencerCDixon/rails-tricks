@@ -23,7 +23,7 @@ sales tax, etc.  Isolates small components of the application.
 *  Shoulda Matchers
 *  DatabaseCleaner - ensure we have a clean slate between test runs
 
-
+**TIP** run rails g to see a list of generators you have available
 
 
 

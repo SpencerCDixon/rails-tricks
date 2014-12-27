@@ -25,5 +25,7 @@ sales tax, etc.  Isolates small components of the application.
 
 **TIP** run rails g to see a list of generators you have available
 
+Stubs allow you call a method
+Mocks expect you to call a method on the object
 
 

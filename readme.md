@@ -655,6 +655,27 @@ users = Users.where(login: "mack").includes(:billable_weeks)
 
 # Second degree associations
 users = Users.where(login: "mack").includes(:billable_weeks)
+```
+
+#### Awesome Custom Validators:
+
+```ruby
+class EmailValidator < ActiveRecord::Validator
+  def validate()
+    email_field = options[:attr]
+    record.errors[email_field] << 'is not valid' unless
+      record.send(email_field) =~ /\A(^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/
+  end
+end
+
+class Account < ActiveRecord::Base
+  validates_with EmailValidator, attr: :email
+end
+```
+
+
+
+
 
 ### Views
 

@@ -915,6 +915,63 @@ body {
 }
 ```
 
+#### Flashes
+Because flashes are used so commonly you can add them to the ``redirect_to``
+method to save time:
+```ruby
+redirect_to root_path, notice: "Welcome, you are signed in"
+```
+
+There are also special accessors for notice and alert since they are used so
+much:
+```ruby
+def create
+  if @user.save
+    flash.notice = "Welcome"
+  else
+    flash.alert = "Login invalid"
+  end
+end
+```
+
+Knowing that we can display flash messages in our layouts like so:
+```ruby
+
+%body
+  - if flash.notice
+    .notice= flash.notice
+  - if flash.alert
+    .notice.alert= flash.alert
+
+  = yield
+```
+ 
+#### Partials
+In older versions of rails ``render :partial`` was the syntax.  Now you can pass
+in a string to render the correct partials. ``render 'partial'``
+
+Partial template names must begin with an underscore.  Leave the underscore OUT
+when referring to them.
+
+Generally best practice to encapsulate a partial inside a well-defined div or
+semantically significant container.  Will help with understanding how it will
+render and with CSS later on.
+
+When creating partials that will be used in multiple views, stick them in a
+shared folder and render like this:
+
+```ruby
+# app/views/shared/_captcha.html.haml
+
+# app/views/users/new.html.haml
+ ...
+ = render 'shared/captcha'
+ ...
+```
+
+
+
+
 
 
 

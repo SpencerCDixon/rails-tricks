@@ -1,9 +1,11 @@
 ## Spencer's Rails Guide
 
-Reference:
-*  Geocoding - page 272
-*  Calculation AR methods - page 279
-*  Enum (used for draft, published, archived) - page 291
+Reference:  
+*  Geocoding - page 272  
+*  Calculation AR methods - page 279  
+*  Enum (used for draft, published, archived) - page 291  
+*  hstore with Postgres - page 304
+
 
 
 
@@ -829,18 +831,100 @@ class Timesheet
 AR::Base models so that the view helpers can still determine paths, routes, and
 naming.
 
+**UUID**: universally unique identifier - a 128-bit value that is unlikely to be
+generated twice.
 
-
-
-
-
-
-
+To set a column as a UUID:
+```ruby
+add_column :table_name, :unique_identifier, :uuid
+```
 
 ### Views
 
 Folders after app/views/ are linked up to specific controllers, the files inside
 those folders are linked to specific actions inside that controller
+
+#### Additional Yields
+
+```ruby
+# in applicaiton.html.haml
+
+%body
+  .left.sidebar
+    = yield :left
+  .content
+    = yield 
+  .right.sidebar
+    = yield :right
+```
+
+Then to add content to one of the other yields you simply call ``content_for``
+in the view passing in the proper symbol.
+
+```ruby
+- content_for :left do
+  %h2 Navigation
+  ....
+
+- content_for :right do
+  %h2 Help
+  ....
+```
+
+In addition to sidebars it's a good idea to ``yield :head`` in case you have any
+page specific head data you want in, ex: Facebook Open Graph.
+
+Conditional output:
+
+```ruby
+- if show_subtitle?
+  %h2= article.subtitle
+```
+
+Shorter one-liner version:  
+```ruby
+%h2= article.subtitle if show_subtitle?
+```
+Problem is if it returns nil then there will be empty ``h2`` tags on the page
+
+Taking advantage of controller and action names in your CSS:
+```ruby
+
+%body{ class: "#{controller.controller_name} #{controller.action_name}" }
+
+# Body will look like:
+<body class="timesheets index">
+```
+
+Haml has a helper method to do the above:
+```ruby
+%body{ class: page_class }
+```
+
+With that added CSS you can customize things like background images per page
+using some sass fun:
+```ruby
+body {
+  .timesheets .header {
+    background: image1
+  }
+
+  .expense_reports .header {
+    background: image2
+  }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,5 +1,13 @@
 ## Spencer's Rails Guide
 
+Reference:
+*  Geocoding - page 272
+*  Calculation AR methods - page 279
+*  Enum (used for draft, published, archived) - page 291
+
+
+
+
 ### Config
 Changes to config files require a server restart
 
@@ -672,6 +680,158 @@ class Account < ActiveRecord::Base
   validates_with EmailValidator, attr: :email
 end
 ```
+
+Overriding custom validation messages:
+```ruby
+class Account < ActiveRecord::Base
+  validates_uniqueness_of :uesrname, message: "is already taken"
+end
+```
+
+Using Scopes:
+```ruby
+class Timesheet < ActiveRecord::Base
+  scope :submitted, -> { where(submitted: true) }
+end
+
+Timesheet.submitted
+# Will return array of all submitted timesheets
+```
+
+Instead of using scope you can also create a class method instead:
+```ruby
+def self.delinquent
+  where('timesheets_updated_at < ?', 1.week.ago)
+end
+
+User.delinquent
+# returns delinquent users
+```
+
+Passing a scope a parameter:
+```ruby
+scope :newer_than, ->(date) { where('start_date > >', date) }
+```
+
+Scopes can be chained together for reuse within scope definitions themselves:
+```ruby
+class Timesheet < ActiveRecord::Base
+  scope :submitted, -> { where(submitted: true) }
+  scope :underutilized, -> { submitted.where('total_hours < 40') }
+```
+
+Scopes are automatically available in has_many relationships
+
+
+#### Callbacks
+If you return false (not nil) from a callback method then AR halts the execution
+chain.
+
+Preventing records from being deleted:
+```ruby
+class Account < ActiveRecord::Base
+  before_destroy do
+    self.update_attribute(:deleted_at, Time.current)
+    false # this will halt the execution chain
+  end
+
+  ...
+end
+```
+
+Open-Closed Principle: Write code that is open for extension but closed for
+modification.
+
+#### Single Table Inheritance
+In order to activate STI all you need to do is include a type:string column in
+the parent class. 
+
+#### Polymorphic Associations
+```ruby
+class Comment < ActiveRecord::Base
+  belongs_to :commentable, polymorphic: true
+end
+```
+
+NOTE: There is no ``Commentable`` class in our application.  It's named that way
+to describe the interface of objects that will be associated with comments.
+
+```ruby
+class Timesheet < ActiveRecord::Base
+  has_many :comments, as: :commentable
+end
+
+class BillableWeek < ActiveRecord::Base
+  has_many :comments, as: :commentable
+end
+```
+
+We specifiy the polymorphism with the ``as:`` 
+
+Migration for comments:
+```ruby
+create table :comments do |t|
+  t.text :body
+  t.integer :commentable
+  t.string :commentable_type
+end
+```
+
+There is a shortcut for your migrations to make it even easier given by AR API
+```ruby
+t.references :commentable, polymorphic: true
+```
+
+Enum can be used as a state machine inside rails.
+
+```ruby
+class Post < ActiveRecord::Base
+  enum status: %i(draft published archived)
+  ...
+end
+
+create_table :posts do |t|
+  t.integer :status, default: 0
+end
+
+Post.new.status
+#  => "draft"
+
+post.published!
+post.published?
+# => true
+
+# See page 291 for more example
+
+```
+
+Refactoring into Modules for common behavior:
+
+```ruby
+module Commentable
+  extend ActiveSupport::Concern
+  included do
+    has_many :comments, as: :commentable
+  end
+end
+
+class Timesheet < ActiveRecord::Base
+  include Commentable
+end
+
+# The include will now work since we extended activesupport concern.  If we
+hadn't dont that the has_many class method would of been called in the incorrect
+scope.  It would of been called in the scope of module Commentable and not the
+class Timesheet
+```
+
+**TIP** ActiveModel::Conversion and ActiveModel::Naming should be extended into non
+AR::Base models so that the view helpers can still determine paths, routes, and
+naming.
+
+
+
+
 
 
 

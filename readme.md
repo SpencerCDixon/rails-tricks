@@ -8,6 +8,8 @@ Reference:
 *  Passing partials variables - pg 326
 
 
+# Table of Contents  
+*  [Helpers](#helpers)  
 
 
 
@@ -982,6 +984,8 @@ Ordering a rendered collection with the ``_counter`` method:
 = div_for(entry) do
   "#{entry_counter}: #{entry.description} 
 #{distance_of_time_in_words_to_now entry.created_at} ago"
+
+### Helpers
 
 
 

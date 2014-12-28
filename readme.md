@@ -5,6 +5,8 @@ Reference:
 *  Calculation AR methods - page 279  
 *  Enum (used for draft, published, archived) - page 291  
 *  hstore with Postgres - page 304
+*  Passing partials variables - pg 326
+
 
 
 
@@ -969,6 +971,17 @@ shared folder and render like this:
  ...
 ```
 
+#### Rendering Collections
+**TIP**: Providing fallback to prevent nil iteration:
+```ruby
+= render(entries) || "No entries exist"
+```
+
+Ordering a rendered collection with the ``_counter`` method:
+```ruby
+= div_for(entry) do
+  "#{entry_counter}: #{entry.description} 
+#{distance_of_time_in_words_to_now entry.created_at} ago"
 
 
 

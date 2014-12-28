@@ -988,6 +988,116 @@ Ordering a rendered collection with the ``_counter`` method:
 
 ### Helpers
 
+#### AssetTagHelper
+Methods for generating HTML that links views to assets such as images, js,
+stylesheets, and feeds.
+
+Custom Favicon:
+```ruby
+favicon_link_tag '/myicon.ico'
+```
+
+Setting up path to javascript files:
+```ruby
+
+javascript_include_tag 'xml1hr'
+# => src="/assets/xmlhr.js"
+
+# Setting explicit pathes:
+javascript_include_tag 'common', '/elsewhere/cools'
+# => src="/assets/common.js"
+# => src="/elswhere/cools.js"
+```
+These rules all also apply to ``stylessheet_link_tag``
+
+Image Paths:
+```ruby
+image_path("edit.png") # => /assets/edit.png
+image_path("icons/edit.png") # => /images/icons/edit.png
+image_path("/icons/edit.png") # => /icons/edit.png
+```
+
+Image Tags:
+```ruby
+image_tag('icon.png') # => src="/assets/icon.png"
+image_tag('/photos/icon.gif') # => src="/photos/icon.gif"
+```
+See page 341 for more asset tag/path helper methods
+
+Dynamically decide whether layout will have columns:
+
+```ruby
+%body{class: content_for?(:right_col) ? 'one-column' : 'two-column'
+  = yield
+  = yield :right_col
+```
+
+#### DateHelper
+**TIP**: ``distance_of_time_in_words_to_now`` has been aliased to ``time_ago_in_words``
+
+One use case:
+```ruby
+%strong= comment.user.name
+%br
+%small= "#{time_ago_in_words(review.created)at)} ago"
+```
+
+#### FormHelper
+Can be used with classes other than Active Record models, again in order to do
+that you would want to mixin ActiveModel::Model to your class.
+
+```ruby
+= f.text_field :first_name
+
+# gets expanded to:
+
+= text_field :person, :first_name
+```
+
+If you want resulting params hash posted to your controller to be named based on
+something other than the class name of the object you pass to ``form_for``, you
+can pass an symbol in:
+
+```ruby
+= form_for person, as: :client do |F|
+
+= f.text_field :first_name
+
+# gets expanded to:
+= text_field :client, :first_name, object: person
+```
+
+Options:
+``:url``: The url the form is submitted to. May pass a named route directly  
+``:namespace``: A namspace that will be prefixed with an underscore on the
+generated HTML id of the form.  
+``:html``: Optional HTML attributes for the form tag.  
+``:builder``: Optional form builder class  
+
+**TIP**: The preferred way to use ``form_for`` is to rely on automated resource
+identification, which will use conventions and named routes instead of manually
+configuring the ``:url`` option.
+
+Creating nested forms - see page 363
+All other helpers can be found after nested forms
+
+#### FormOptionsHelper
+Select:
+
+```ruby
+= select(:post, :person_id, Person.all.collect { |p| [ p.name, p.id ] },
+  { include_blank: true }
+```
+That will create a drop down with all the People's names and id's, the first
+dropdown will be blank because of ``include_blank: true``
+
+#### NumberHelper
+``number_to_percentage(number, options = {})``
+``number_to_phone``
+
+
+
+
 
 
 

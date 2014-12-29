@@ -1095,6 +1095,16 @@ dropdown will be blank because of ``include_blank: true``
 ``number_to_percentage(number, options = {})``
 ``number_to_phone``
 
+#### TextHelpers
+``excerpt(text, phrase, options={})``
+``highlight(text, phrases, options={})``
+``pluralize(count, singular, plural=nil)``
+``truncate(text, options={}, &block)``  if text is longer than the length option
+the text will be truncated to the length specified and the last three characters
+will be replaced with :omission (default: ...)
+``word_wrap(text, options={})`` wraps text into lines no longer than the
+:line_width option.
+
 
 
 

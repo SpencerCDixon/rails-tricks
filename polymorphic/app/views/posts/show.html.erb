@@ -1,0 +1,9 @@
+<h1> <%= @post.title %></h1>
+<p> <%= @post.description %></p>
+
+<%= form_for [@post, @comment] do |f| %>
+  <%= f.label :body %>
+  <%= f.text_area :body %>
+
+  <%= f.submit 'Create comment' %>
+<% end -%>

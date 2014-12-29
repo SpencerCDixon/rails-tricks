@@ -16,4 +16,9 @@ feature 'User can create a post' do
     expect(page).to have_content( 'There pretty cool to learn about' )
     expect(page).to have_content( 'Post successfully created' )
   end
+
+  scenario 'visitor cannot create post' do
+    visit root_path
+    expect(page).to_not have_content('New post')
+  end
 end

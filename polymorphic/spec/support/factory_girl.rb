@@ -7,4 +7,8 @@ FactoryGirl.define do
     password_confirmation 'password'
   end
 
+  factory :post do
+    title 'Polymorphic Associations are so cool!'
+    description 'This repo is to be used to teach polymorphic associations'
+  end
 end

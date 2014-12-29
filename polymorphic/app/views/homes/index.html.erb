@@ -1,5 +1,8 @@
 <h1>Polymorphic Associations</h1>
+<h2>Sign in to create a post that can have comments</h2>
 
-<%= link_to 'New post', new_post_path, class: 'button info' %>  
+<% if current_user %>
+  <%= link_to 'New post', new_post_path, class: 'button info' %>  
+<% end -%>
 
 <%= render @posts || "No posts exist" %>

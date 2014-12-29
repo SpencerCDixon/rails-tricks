@@ -16,5 +16,6 @@ feature 'User can comment on a post' do
     click_on 'Create comment'
 
     expect(page).to have_content('This is a pretty sweet post')
+    expect(page).to have_content('Comment Created')
   end
 end

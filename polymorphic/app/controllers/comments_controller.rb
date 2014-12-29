@@ -2,11 +2,9 @@ class CommentsController < ApplicationController
   def create
     @post = Post.find(params[:post_id])
     @comment = @post.comments.new(comment_params)
-    binding.pry
 
     if @comment.save
-      binding.pry
-      redirect_to root_path
+      redirect_to post_path(@post), notice: "Comment Created"
     else
       render 'posts#show'
     end

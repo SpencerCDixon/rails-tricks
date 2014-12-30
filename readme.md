@@ -1143,6 +1143,25 @@ Options:
 URL instead of following a link.
 ``confirm:`` 'Question?' JS
 
+``link_to_if``:  creates a link tag using the same options as link_to but the
+first parameter is a condition.
+
+``link_to_unless``:  creates a link tag using the same options as link_to but the
+first parameter is a condition.
+
+Linking back unless current:
+```ruby
+link_to_unless_current("Comment", { controller: 'comments', action: 'new' }) do
+  link_to("Go back", posts_path)
+end
+```
+``mail_to(email_address, name = nil, html_options = {}, &block)``
+
+**TIP**: If you pass the magic symbol, ``:back``, to any method that uses
+url_for under the covers, the user will be returned back to the last requested
+page.
+
+
 
 
 

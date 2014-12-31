@@ -58,3 +58,10 @@ RSpec.configure do |config|
 
 end
 ```
+
+Transactional fixtures true will clear the entire test database after the test is
+run, however sometimes there are errors where models will get persisted when you
+don't want it to.
+
+
+

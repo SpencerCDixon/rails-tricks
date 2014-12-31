@@ -1161,6 +1161,86 @@ end
 url_for under the covers, the user will be returned back to the last requested
 page.
 
+#### Writing Custom Helpers
+As you develop your app when you start to see a lot of duplication in the views,
+that is a great opportunity to extract it out into helper methods.  Helper
+methods are basically custom, app-level, API for your view code.
+
+```ruby
+def page_title(name)
+  content_for(:title) { name }
+  content_tag('h1', name)
+end
+
+# application layout
+%html
+  %head
+    %title= yield :title
+```
+
+Default photo view helper
+```ruby
+def photo_for(user, size=:thumb)
+  if user.profile_photo
+    src = user.profile_photo.public_filename(size)
+  else
+    src = 'user_placeholder.png'
+  end
+  link_to(image_tag(src), user_path(user))
+end
+```
+
+**TIP**: In order to create custom view helpers you need to create a directory
+called ``helpers`` inside the app directory.  The universal helper will be
+called ``application_helper.rb''
+
+Here is an example of a page title helper:
+```ruby
+module ApplicationHelper
+  def some_method
+    ...
+  end
+end
+```
+
+Adding strong params to devise:
+```ruby
+class ApplicationController < ActionController::Base
+  before_action :devise_permitted_paramters, if: :devise_controller?
+
+  protected
+
+  def devise_permitted_paramters
+    devise_paramter_sanitizer.for(:sign_up) << :phone_number
+  end
+end
+```
+
+Adding multiple paramters:
+```ruby
+class ApplicationController < ActionController::Base
+  before_action :devise_permitted_paramters, if: :devise_controller?
+
+  protected
+
+  def devise_permitted_paramters
+    devise_paramter_sanitizer.for(:sign_in) { |user| user.permit(:email,
+:password, :remember_me, :username) }
+  end
+end
+```
+
+Faster testing with Devise:
+```ruby
+# spec/support/devise.rb
+RSpec.configure do |config|
+  config.include Devise::TestHelpers, type: :controller
+end
+
+# this will create some helper methods like sign_in and sign_out
+```
+
+
 
 
 

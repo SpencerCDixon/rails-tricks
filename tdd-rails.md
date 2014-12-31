@@ -29,3 +29,32 @@ Stubs allow you call a method
 Mocks expect you to call a method on the object
 
 
+**TIP**: When using database_cleaner you will want to turn off transactional
+fixtures
+
+```ruby
+# DB cleaner configuration from Avdi Grimm
+RSpec.configure do |config|
+
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
+  end
+
+  config.before(:each, :js => true) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
+
+end
+```

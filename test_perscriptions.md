@@ -84,7 +84,7 @@ expect(project.done?).to(RSpec::BuiltIn::BeTruthy.new)
 The ``ExpectationTarget`` is now holding on to two objects: the project.done?
 object and the matcher be_truthy.  When it has both objects it called the
 ``matches?`` method and checks if it is true or false depending on if you used
-#to or #not_to
+``#to`` or ``#not_to``
 
 See page 19 for a diagram of this process
 

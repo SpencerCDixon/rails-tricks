@@ -119,10 +119,76 @@ expect(["cheese", "burger"]).to contain_exactly(a_string_matching(/ch/), a
 string_matching(/urg/))
 ```
 
+**TIP**: use the rspec command directly to avoid the overhead of starting up
+rake.
+
+Each top-level call to ``RSpec.describe`` creates an internal RSpec object
+called an example group.
+
+What ``let`` breaks down to:
+```ruby
+def me
+  @me || User.new(name: 'Spencer')
+end
+```
+
+#### Questions To Ask Before Writing Test:  
+*  _Given_: What data does the test need?  
+*  _When_: What action is taking place?  
+*  _Then_:  What behavior do we need to specify?  
 
 
+**Perscription 4:** When possible, write your tests to describe your code's
+behavior, not its implementation.
 
+**Perscription 5:** Keeping your code as simple as possible allows you to focus
+complexity on the areas that really need complexity.
 
+**Perscription 6:** Choose your test data and test-variable names to make it
+easy to diagnose features when they happen.  Meaningful names and data that
+doesn't overlap are helpful.
+
+When dealing with Time or Dates in your tests make sure to use the Rails Helpers
+like: ``6.months.ago`` or ``1.day.ago``.
+
+**TIP**: Use ``rails g resource`` instead of scaffolding in order to get a
+new resource that has nothing in it's controllers actions
+
+Versions of Rails before 4.1 need to run ``rake db:test:prepare`` after every
+migration in order to keep the test database in sync with the main schema.
+Versions 4.1+ will do this automatically.
+
+## Project Creator
+```ruby
+class CreatesProject
+  attr_accessor :name, :task_string, :project
+
+  def initialize(name: "", task_string: "")
+    @name = name
+    @task_string = task_string
+  end
+
+  def build
+    self.project = Project.new(name: name)
+    project.tasks = convert_string_to_tasks
+  end
+
+  def convert_string_to_tasks
+    tasks_string.split("\n").map do |task_string|
+      title, size = task_string.split(":")
+      size = 1 if (size.blank? || size.to_i.zero?)
+      Task.new(title: title, size: size)
+    end
+  end
+
+  def create
+    build
+    project.save
+  end
+end
+```
+
+k
 
 
 

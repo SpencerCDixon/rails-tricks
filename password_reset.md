@@ -49,3 +49,22 @@ password
   end
 end
 ```
+
+Next we need to create the Mailers:
+```ruby
+# app/mailers/user_mailer.rb
+class UserMailer < ActionMailer::Base
+  default from: "operations@launchacademy.com"
+
+  def password_reset(identity)
+    @user = identity.user
+    @identity = identity
+    mail to: @user.email, subject: "Password reset - Launch Academy"
+  end
+end
+```
+
+This creates an email that can be sent using the #password_reset method.  An
+identity (normally would be a user) can be passed in to customize the email.
+
+Create the 

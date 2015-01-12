@@ -188,7 +188,36 @@ class CreatesProject
 end
 ```
 
-k
+### Causes of Slow Tests:
+
+*  Startup time
+*  Dependencies within the code that require a lot of objects to be created to
+   invoke the method under test
+*  Extensive use of the database or other external services during a test
+
+### Avoiding Brittle View Tests
+
+It's often better to test for a DOM ID on the page than particular words since
+those words will most likely be changed throughout the development of the
+application
+
+```ruby
+it "shows the project section" do
+  get :dashboard
+  expect(response).to have_selector("h2", :text => 'My Projects')
+end
+
+# could be turned into:
+
+it "shows the project section" do
+  get :dashboard
+  expect(response).to have_selector("h2#projects")
+end
+```
+
+**TIP**: When you are refactoring the 3 things you should be looking for are:
+complexity to break up, duplication to combine, and abstractions waiting to be
+born.
 
 
 

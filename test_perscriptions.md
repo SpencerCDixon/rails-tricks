@@ -219,6 +219,54 @@ end
 complexity to break up, duplication to combine, and abstractions waiting to be
 born.
 
+Great example of refactoring a Name class:
+
+```ruby
+class Name
+  attr_reader :first_name, :last_name
+  def initialize(first, last)
+    @first_name, @last_name = first, last
+  end
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
+  def sort_name
+    "#{last_name} #{first_name}"
+  end
+end
+
+class User < ActiveRecord::Base
+  delegate :full_name, :sort_name, to: :name
+  def name
+    Name.new(first_name, last_name)
+  end
+end
+```
+
+By doing this extraction, it's easier to test because Name has no dependencies on the database.
+
+```ruby
+it "generates sortable names" do
+  name = Name.new('spencer', 'dixon')
+  expect(name.sort_name).to eq("dixon, spencer")
+end
+```
+
+### Making Failing Tests Easier To Read:
+
+```ruby
+it "finds completed tasks" do
+  complete = Task.create(completed_at: 1.day.ago, title: "Completed")
+  incomplete = Task.create(completed_at: nil, title: "Incompleted")
+  expect(Task.complete.map(:&title).to eq(["Completed"])
+end
+```
+
+By calling ``.map(:&title)`` we are taking a complex object and making it
+simple.  Now the failing test would expect an array with "Completed" in it and
+the actual might be something else.
 
 
 

@@ -1,4 +1,4 @@
 <%= div_for(post) do %>
   <h1><%= link_to post.title, post_path(post) %></h1>
-  <p><%= post.description %></p>
+  <p><%= post.description %> - <span style="color: red;">Has <%= pluralize(post.comments.count, "comment") %></span></p>
 <% end -%>

@@ -1,5 +1,5 @@
 <ul>
 <%= div_for(comment) do %>
-  <li><%= comment.body %></li>
+  <li><%= comment.body %> - <%= comment.rating if comment.rating %></li>
 <% end -%>
 </ul>

@@ -34,6 +34,9 @@ function handleStarClick(e) {
   $trigger.nextAll("a").find("i")
     .removeClass("fa-star")
     .addClass("fa-star-o");
+
+  var $hidden = $('#comment_rating');
+  $hidden.val(rating)
 }
 
 function handleStarHover(e) {

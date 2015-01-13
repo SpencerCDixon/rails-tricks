@@ -5,7 +5,14 @@
   <%= f.label :body %>
   <%= f.text_area :body %>
 
-  <%= f.submit 'Create comment' %>
+  <%= f.label "Rate The Post" %>
+  <%= f.hidden_field :rating %>
+  <div id="rating-container">
+  </div>
+
+  <p></p>
+  <%= f.submit 'Create comment', class: "button small" %>
 <% end -%>
+
 
 <%= render @comments || "No comments exist" %>

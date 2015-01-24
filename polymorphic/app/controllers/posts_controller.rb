@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   def show
-    @post = Post.find(params[:id])
+    @post = Post.find_using_slug(params[:id])
     @comment = Comment.new
     @comments = @post.comments
   end

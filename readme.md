@@ -1162,6 +1162,7 @@ end
 url_for under the covers, the user will be returned back to the last requested
 page.
 
+
 #### Writing Custom Helpers
 As you develop your app when you start to see a lot of duplication in the views,
 that is a great opportunity to extract it out into helper methods.  Helper

@@ -1247,6 +1247,22 @@ end
 
 
 
+Displaying errors in HAML:
+```ruby
+= form_for [@assignment, @submission] do |f|
+  - if @submission.errors.any?
+    .errors
+      %p The solution couldn't be submitted.
+      %ul
+        - @submission.errors.full_messages.each do |message|
+          %li= message
+
+  = f.label :body, "Solution"
+  = f.text_area :body
+
+  = f.submit "Submit"
+```
+
 
 
 

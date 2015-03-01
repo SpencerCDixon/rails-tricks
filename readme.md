@@ -1196,7 +1196,7 @@ end
 called ``helpers`` inside the app directory.  The universal helper will be
 called ``application_helper.rb''
 
-Here is an example of a page title helper:
+Here is an example of a generic helper:
 ```ruby
 module ApplicationHelper
   def some_method
@@ -1205,7 +1205,7 @@ module ApplicationHelper
 end
 ```
 
-Adding strong params to devise:
+#### Adding strong params to devise:
 ```ruby
 class ApplicationController < ActionController::Base
   before_action :devise_permitted_paramters, if: :devise_controller?

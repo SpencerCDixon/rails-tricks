@@ -1243,10 +1243,6 @@ end
 ```
 
 
-
-
-
-
 Displaying errors in HAML:
 ```ruby
 = form_for [@assignment, @submission] do |f|

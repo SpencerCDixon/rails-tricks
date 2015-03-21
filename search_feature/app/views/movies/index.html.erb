@@ -1,0 +1,15 @@
+<h2>Movies</h2>
+
+<%= form_tag movies_path, method: :get do %>
+  <%= label_tag :query, "Search" %>
+  <%= text_field_tag :query %>
+  <%= submit_tag "Search Movies" %>
+<% end %>
+
+<ul>
+  <% @movies.each do |movie| %>
+    <li><%= link_to movie.title, movie_path(movie) %></li>
+  <% end %>
+</ul>
+
+<%= paginate @movies %>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MovieCatalog</title>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+  <h1>Movie Catalog</h1>
+
+  <ul>
+    <li><%= link_to "Movies", movies_path %></li>
+    <li><%= link_to "Actors", actors_path %></li>
+  </ul>
+
+  <%= yield %>
+
+</body>
+</html>

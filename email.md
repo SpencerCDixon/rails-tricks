@@ -19,3 +19,8 @@ YourApp::Application.configure do
   # …
 end
 ```
+
+**Note** By default Heroku set up the configuration variables for Mandrill.
+When I was trying to get it to work I didn't realize that my environment
+variables were named differently from Mandrills.  MAKE SURE TO DOUBLE CHECK YOUR
+CALLS TO ENV IN RAILS APP MATCH THE ENVIRONMENT VARIABLE NAMES ON HEROKU!!!

@@ -148,3 +148,5 @@ endmodule SessionHelper
   end
 end
 ```
+
+### Combining Devise with Omni Auth

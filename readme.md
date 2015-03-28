@@ -1264,7 +1264,7 @@ Displaying errors in HAML:
 When you use #update you can change multiple objects by passing in an array of
 object ids and corresponding hashes of what to update.  #update_attribute is
 used to just update a single attribute on a single object and finally
-#update_attributes is used to update multiple attributes of a _single_ object.
+update_attributes is used to update multiple attributes of a _single_ object.
 
 
 

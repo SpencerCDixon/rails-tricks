@@ -67,4 +67,22 @@ tags: "ruby, variables"
 ---
 ```
 
+Finally the last step is to make the actual rake task that will import all the
+lessons into the DB.  That looks like this:
+
+```ruby
+namespace :rocket_ship do
+  desc "Import lessons from the db/lessons directory"
+  task import_lessons: :environment do
+    if ENV["LESSON_DIRECTORY"]
+      curriculum_dir = Rails.root.join(ENV["LESSON_DIRECTORY"])
+      Lesson.import_all!(curriculum_dir)
+    end
+  end
+end
+```
+
+**Note**: I also created an import_all! method that looks through whatever the
+directory lesson is and imports all of the lessons.
+
 

@@ -101,3 +101,11 @@ end
 ```
 
 **Step 10**: Restart server and should be good to go!
+
+**Note**: When using omni auth and devise with multiple providers its important
+to check for if someone has already created an account.  It's very possible that
+a user could sign in with twitter first and github second and then by accidently
+create two accounts in your system.  To prevent this think about making an
+Identity model and using that to check to see if a user already has an identity.
+
+

@@ -79,6 +79,6 @@ scenario 'newest posts appear at the top' do
   visit posts_path
 
   expect(page.body.index(old_post.description) >
-  page.body.index(new_post.description)
+  page.body.index(new_post.description))
 end
 ```

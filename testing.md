@@ -2,6 +2,7 @@ Table Of Contents:
 
 *  [Testing Markdown](#markdown)  
 *  [Testing Mailers](#mailers)  
+*  [Testing Order](#order)  
 
 
 
@@ -58,5 +59,26 @@ scenario 'specifies valid information, registers spot' do
   last_email = ActionMailer::Base.deliveries.last
   expect(last_email).to have_subject('Parking Confirmation')
   expect(last_email).to deliver_to('user@example.com')
+end
+```
+
+# Order
+
+How to test that things are in the proper order with capybara:
+
+Capybara saves the index of all text on the page with a special property called
+`page.body.index(<some text here>)`  We can use that to assert that some text
+appears before or after some other text.
+
+Here is an example of a test to make sure new posts appear before old posts:
+```ruby
+scenario 'newest posts appear at the top' do
+  old_post = FactoryGirl.create(:post, description: 'old post', created_at: 5.days.ago)
+  new_post = FactoryGirl.create(:post, description: 'new post')
+
+  visit posts_path
+
+  expect(page.body.index(old_post.description) >
+  page.body.index(new_post.description)
 end
 ```

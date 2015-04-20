@@ -107,6 +107,8 @@ that matter).  With code there are lots of other ways to level up though besides
 reading which I totally use:
 
 *  Look at other peoples code and figure out how its working.  
+*  Start at commit 1 of some gems/projects and read through how it was built.
+    Super educational!  
 *  Listen to podcasts.  For Ruby I really like [The Ruby
     Rogues](http://devchat.tv/ruby-rogues/)  
 *  Build lots of projects.  My github is FLOODED with small projects or half
@@ -168,7 +170,4 @@ to be made and how I can plan out my next few sprints/campaigns of learning.
 
 Here is what the first one looked like:
 ![Skill Matrix](https://github.com/SpencerCDixon/Rails-tricks/blob/master/img/skills.jpg)
-
-
-
 

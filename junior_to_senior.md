@@ -166,6 +166,8 @@ more time/energy.  I use the same concept but for leveling up my dev skills.  I
 try and revisit my skills matrix every 2-3 months to see what adjustments need
 to be made and how I can plan out my next few sprints/campaigns of learning.
 
+Here is what the first one looked like:
+![Skill Matrix](https://github.com/SpencerCDixon/Rails-tricks/blob/master/img/skills.jpg)
 
 
 

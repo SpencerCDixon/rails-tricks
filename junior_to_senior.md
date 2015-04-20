@@ -70,3 +70,18 @@ the Boston area to gain insight.  For now, I will document the process here.
 *  Master the business domain of their technology  
 *  Continue learning new languages  
 *  Find places with challenging/interesting problems 
+
+
+### Identifying Which Corners Can Be Cut?
+Advice from Dan Pickett:
+
+1.  Tests will always be necessary, the longer you wait, the more technical debt
+accrues.  
+2.  Consider database operations at scale.  I.E. what happens when there are
+1,000,000 / 10,000,000?  
+3.  You can't be your own QA person.  
+4.  Eventually, you will have to relegate expensive operations into a queue or
+background process.  
+5.  Listen to your intuition, if you feel an urge to refactor then you probably
+should.  
+

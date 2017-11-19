@@ -621,7 +621,7 @@ end
 with the same primary key.
 
 ``#delete`` uses SQL directly and does not load the AR object.  Thus it is
-faster.  ``#destory`` loads the object first and then destroys it, it will
+faster.  ``#destroy`` loads the object first and then destroys it, it will
 trigger ``before_destroy`` callbacks and dependant associations will be
 destroyed as well.  There is a difference between the two!
 
